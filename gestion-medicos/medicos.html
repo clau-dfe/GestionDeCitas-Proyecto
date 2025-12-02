@@ -50,51 +50,7 @@
     </form>
   </div>
 
-  <div class="formulario">
-    <h2>Inicio de Sesión</h2>
-    <form id="loginForm">
-      <input type="email" placeholder="Correo electrónico" required />
-      <input type="password" placeholder="Contraseña" required />
-      <button type="submit">Iniciar Sesión</button>
-    </form>
-  </div>
-
-  <script>
-    // Capturar el formulario de registro
-    const registroForm = document.getElementById("registroForm");
-    const mensajeExito = document.getElementById("mensajeExito");
-    const datoNombre = document.getElementById("datoNombre");
-    const datoCorreo = document.getElementById("datoCorreo");
-    const datoEspecialidad = document.getElementById("datoEspecialidad");
-
-    registroForm.addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      // Obtener valores
-      const nombre = registroForm.querySelector("input[placeholder='Nombre completo']").value;
-      const especialidad = registroForm.querySelector("input[placeholder='Especialidad']").value;
-      const correo = registroForm.querySelector("input[placeholder='Correo electrónico']").value;
-
-
-      // Mostrar mensaje debajo del formulario
-      mensajeExito.style.display = "block";
-    });
-
-    // Capturar el formulario de inicio de sesión
-    const loginForm = document.getElementById("loginForm");
-    loginForm.addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      const correoLogin = loginForm.querySelector("input[placeholder='Correo electrónico']").value;
-      const contrasenaLogin = loginForm.querySelector("input[placeholder='Contraseña']").value;
-
-      if (correoLogin === "medico@ejemplo.com" && contrasenaLogin === "1234") {
-        alert("Inicio de sesión exitoso 🎉");
-      } else {
-        alert("Correo o contraseña incorrectos ❌");
-      }
-    });
-  </script>
+  <script src="./medicos.js"></script>
 </body>
 </html>
 

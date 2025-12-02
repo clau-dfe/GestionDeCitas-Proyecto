@@ -67,24 +67,6 @@
     <p>📍 Dirección: Calle 123 #45-67, Usaquén, Bogotá, Colombia</p>
   </footer>
 
-  <script>
-    const registroForm = document.getElementById("registroForm");
-    const mensajeExito = document.getElementById("mensajeExito");
-
-    registroForm.addEventListener("submit", function(event) {
-      event.preventDefault(); // Evita recargar la página
-
-      // Mostrar el anuncio solo cuando se crea el registro
-      mensajeExito.style.display = "block";
-
-      // Limpiar el formulario
-      registroForm.reset();
-
-      // Ocultar el anuncio automáticamente después de 4 segundos
-      setTimeout(() => {
-        mensajeExito.style.display = "none";
-      }, 40000);
-    });
-  </script>
+  <script src="./registrarse.js"></script>
 </body>
 </html>

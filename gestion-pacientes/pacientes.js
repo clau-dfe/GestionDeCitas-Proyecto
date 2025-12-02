@@ -28,12 +28,9 @@ registroForm.addEventListener("submit", function(event) {
 
   // Validar que los campos requeridos estén llenos
   if (tipoDocumento && numeroDocumento && nombre && correo) {
-    // Mostrar mensaje con datos
+    // Mostrar mensaje
     mensajeExito.innerHTML = `
       <p>Registro creado exitosamente ✅</p>
-      <p>Nombre: ${nombre}</p>
-      <p>Correo: ${correo}</p>
-      <p>Teléfono: ${telefono ? telefono : "No registrado"}</p>
     `;
     mensajeExito.style.display = "block";
 
@@ -43,15 +40,3 @@ registroForm.addEventListener("submit", function(event) {
     alert("Por favor completa todos los campos requeridos.");
   }
 });
-
-// --- BOTÓN DE INICIO DE SESIÓN ---
-const botonLogin = registroForm.querySelector("button[type='button']");
-botonLogin.addEventListener("click", function() {
-  // Aquí puedes redirigir a otra página de login
-  // Ejemplo: window.location.href = "login.html";
-
-  // O mostrar un mensaje simulado
-  alert("Redirigiendo a la página de inicio de sesión...");
-});
-
-

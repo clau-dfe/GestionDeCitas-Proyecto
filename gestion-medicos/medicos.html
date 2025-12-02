@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Formulario de Médico</title>
+  <link rel="stylesheet" href="medicos.css" />
+  <style>
+    /* Estilo para el anuncio de éxito */
+    .mensaje-exito {
+      display: none; /* Oculto por defecto */
+      margin-top: 20px;
+      text-align: center;
+      background-color: #dff0d8;
+      color: #3c763d;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html">Volver</a>
+  </nav>
+  
+  <div class="formulario">
+    <h2>Registro de Médico</h2>
+    <form id="registroForm">
+      <select required>
+        <option disabled selected>Tipo de documento</option>
+        <option>Cédula de ciudadanía</option>
+        <option>Cédula de extranjería</option>
+        <option>Pasaporte</option>
+      </select>
+      <input type="text" placeholder="Número de documento" required />
+      <input type="text" placeholder="Nombre completo" required />
+      <input type="text" placeholder="Especialidad" required />
+      <input type="email" placeholder="Correo electrónico" required />
+      <input type="password" placeholder="Contraseña" required />
+      <button type="submit">Registrar</button>
+
+      <!-- Contenedor para el mensaje de éxito -->
+      <div class="mensaje-exito" id="mensajeExito">
+        <p>Registro creado exitosamente ✅</p>
+        <p id="datoNombre"></p>
+        <p id="datoCorreo"></p>
+        <p id="datoEspecialidad"></p>
+      </div>
+    </form>
+  </div>
+
+  <div class="formulario">
+    <h2>Inicio de Sesión</h2>
+    <form id="loginForm">
+      <input type="email" placeholder="Correo electrónico" required />
+      <input type="password" placeholder="Contraseña" required />
+      <button type="submit">Iniciar Sesión</button>
+    </form>
+  </div>
+
+  <script>
+    // Capturar el formulario de registro
+    const registroForm = document.getElementById("registroForm");
+    const mensajeExito = document.getElementById("mensajeExito");
+    const datoNombre = document.getElementById("datoNombre");
+    const datoCorreo = document.getElementById("datoCorreo");
+    const datoEspecialidad = document.getElementById("datoEspecialidad");
+
+    registroForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      // Obtener valores
+      const nombre = registroForm.querySelector("input[placeholder='Nombre completo']").value;
+      const especialidad = registroForm.querySelector("input[placeholder='Especialidad']").value;
+      const correo = registroForm.querySelector("input[placeholder='Correo electrónico']").value;
+
+
+      // Mostrar mensaje debajo del formulario
+      mensajeExito.style.display = "block";
+    });
+
+    // Capturar el formulario de inicio de sesión
+    const loginForm = document.getElementById("loginForm");
+    loginForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const correoLogin = loginForm.querySelector("input[placeholder='Correo electrónico']").value;
+      const contrasenaLogin = loginForm.querySelector("input[placeholder='Contraseña']").value;
+
+      if (correoLogin === "medico@ejemplo.com" && contrasenaLogin === "1234") {
+        alert("Inicio de sesión exitoso 🎉");
+      } else {
+        alert("Correo o contraseña incorrectos ❌");
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+

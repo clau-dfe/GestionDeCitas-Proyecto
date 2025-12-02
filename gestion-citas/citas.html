@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agendar Cita</title>
+  <link rel="stylesheet" href="citas.css" />
+</head>
+<body>
+  <nav>
+    <a href="../index.html">Volver</a>
+  </nav>
+
+  <div class="formulario">
+    <h2>Agendar Cita</h2>
+    <form>
+      <label for="documento">Tipo de documento</label>
+      <select required id="documento"></select>
+
+      <label for="nDocumento">Nùmero de documento</label>
+      <input id="nDocumento" type="text" placeholder="Escribe aquì.." required />
+
+      <label for="nombrePaciente">Nombre del paciente</label>
+      <input id="nombrePaciente" type="text" placeholder="Escribe aquì.." required />
+
+      <label for="fecha">Fecha de la cita</label>
+      <input id="fecha" type="date" required />
+      
+      <label for="hora">Fecha de la cita</label>
+      <input id="hora" type="time" required />
+
+      <button id="crearCita" type="submit">Agendar</button>
+
+      <div id="mensaje">¡Cita creada exitosamente!</div>
+    </form>
+  </div>
+  <script src="./cita.js"></script>
+</body>
+</html>

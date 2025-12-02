@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dermo-Skin</title>
+  <link rel="stylesheet" href="../estilos/style.css" />
+  <style>
+    /* Estilo para el anuncio */
+    .mensaje-exito {
+      display: none; /* Oculto por defecto */
+      margin-top: 15px;
+      text-align: center; /* Centrado */
+      background-color: #dff0d8; /* verde pastel */
+      color: #3c763d;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      width: 100%; /* ocupa todo el ancho del formulario */
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Dermo-Skin</h1>
+    <p>Consulta, tratamientos, rejuvenecimiento y más.</p>
+  </header>
+
+  <nav>
+    <a href="../index.html">Inicio</a>
+  </nav>
+
+  <section>
+    <h2>Registrarse</h2>
+    <form id="registroForm">
+      <select required>
+        <option disabled selected>Tipo de documento</option>
+        <option>Cédula de ciudadanía</option>
+        <option>Cédula de extranjería</option>
+        <option>Pasaporte</option>
+      </select>
+      <input type="text" placeholder="Número de documento" required />
+      <input type="text" placeholder="Nombre completo" required />
+      <input type="email" placeholder="Correo electrónico" required />
+      <input type="password" placeholder="Contraseña" required />
+      <button type="submit">Crear cuenta</button>
+
+
+    <!-- Contenedor para el anuncio -->
+    <div id="mensajeExito" class="mensaje-exito">
+      ✅ Registro creado exitosamente
+    </div>
+  </form>
+</section>
+
+
+      <!-- Contenedor para el anuncio -->
+      <div id="mensajeExito" class="mensaje-exito">
+        ✅ Registro creado exitosamente
+      </div>
+    </form>
+  </section>
+
+  <footer>
+    <p>© 2025 Dermo-Skin. Todos los derechos reservados.</p>
+    <p>📍 Dirección: Calle 123 #45-67, Usaquén, Bogotá, Colombia</p>
+  </footer>
+
+  <script>
+    const registroForm = document.getElementById("registroForm");
+    const mensajeExito = document.getElementById("mensajeExito");
+
+    registroForm.addEventListener("submit", function(event) {
+      event.preventDefault(); // Evita recargar la página
+
+      // Mostrar el anuncio solo cuando se crea el registro
+      mensajeExito.style.display = "block";
+
+      // Limpiar el formulario
+      registroForm.reset();
+
+      // Ocultar el anuncio automáticamente después de 4 segundos
+      setTimeout(() => {
+        mensajeExito.style.display = "none";
+      }, 40000);
+    });
+  </script>
+</body>
+</html>

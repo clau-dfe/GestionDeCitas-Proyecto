@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registro de Paciente</title>
+  <link rel="stylesheet" href="pacientes.css" />
+</head>
+
+<body>
+  <nav>
+    <a href="../index.html">Volver</a>
+  </nav>
+
+  <div class="formulario">
+    <h2>Registro de Paciente</h2>
+    <form>
+      <select required>
+        <option disabled selected>Tipo de documento</option>
+        <option>Cédula de ciudadanía</option>
+        <option>Cédula de extranjería</option>
+        <option>Pasaporte</option>
+      </select>
+      <input type="text" placeholder="Número de documento" required />
+      <input type="text" placeholder="Nombre completo" required />
+      <input type="email" placeholder="Correo electrónico" required />
+      <input type="tel" placeholder="Teléfono" />
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Seleccionar el formulario
+  const registroForm = document.querySelector(".formulario form");
+  if (!registroForm) {
+    console.error("No se encontró el formulario dentro de .formulario");
+    return;
+  }
+
+  // Crear un contenedor para mostrar el mensaje de éxito
+  const mensajeExito = document.createElement("div");
+  mensajeExito.className = "mensaje-exito";
+  mensajeExito.style.display = "none";
+  mensajeExito.style.marginTop = "20px";
+  mensajeExito.style.textAlign = "center";
+  mensajeExito.style.backgroundColor = "#dff0d8";
+  mensajeExito.style.color = "#3c763d";
+  mensajeExito.style.padding = "15px";
+  mensajeExito.style.borderRadius = "8px";
+  mensajeExito.style.fontWeight = "bold";
+
+  // Insertar el contenedor al final del formulario
+  registroForm.appendChild(mensajeExito);
+
+  // Evento de envío del formulario (Registro de Paciente)
+  registroForm.addEventListener("submit", function(event) {
+    event.preventDefault(); // Evita recargar la página
+
+    // Obtener valores
+    const tipoDocumento = registroForm.querySelector("select")?.value || "";
+    const numeroDocumento = registroForm.querySelector("input[placeholder='Número de documento']")?.value.trim() || "";
+    const nombre = registroForm.querySelector("input[placeholder='Nombre completo']")?.value.trim() || "";
+    const correo = registroForm.querySelector("input[placeholder='Correo electrónico']")?.value.trim() || "";
+    const telefono = registroForm.querySelector("input[placeholder='Teléfono']")?.value.trim() || "";
+
+    // Validar requeridos
+    if (tipoDocumento && tipoDocumento !== "Tipo de documento" && numeroDocumento && nombre && correo) {
+      mensajeExito.innerHTML = `
+        <p>Registro creado exitosamente ✅</p>
+        
+      `;
+      mensajeExito.style.display = "block";
+      registroForm.reset();
+    } else {
+      alert("Por favor completa todos los campos requeridos.");
+    }
+  });
+
+  // --- BOTÓN DE INICIO DE SESIÓN ---
+  const botonLogin = registroForm.querySelector("button[type='button']");
+  if (!botonLogin) {
+    console.warn("No se encontró el botón de Inicio de sesión.");
+    return;
+  }
+
+  botonLogin.addEventListener("click", function() {
+    // Redirección real (descomenta si tienes login.html)
+    // window.location.href = "login.html";
+
+    // Mensaje de demostración
+    alert("Redirigiendo a la página de inicio de sesión...");
+  });
+});
+</script>
+
+});
+</script>
+
+      <div class="botones">
+        <button type="submit">Registrar</button>
+        <button type="button">Inicio de sesión</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+

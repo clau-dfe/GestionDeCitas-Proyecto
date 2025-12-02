@@ -1,0 +1,35 @@
+body {
+  background-color: #f0f8ff;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.formulario {
+  max-width: 400px;
+  margin: 50px auto;
+  background-color: #e6f0ff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #b0c4de;
+  text-align: center;
+}
+
+h2 {
+  color: #4682b4;
+}
+
+input, select, button {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #cce0ff;
+  color: #444;
+  font-weight: bold;
+  cursor: pointer;
+}

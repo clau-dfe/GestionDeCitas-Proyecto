@@ -6,19 +6,33 @@
   <link rel="stylesheet" href="citas.css" />
 </head>
 <body>
-  <nav>
-    <a href="../index.html">Volver</a>
-  </nav>
+  <header>
+    <h1>Gestiòn de citas mèdicas</h1>
+    
+    <nav>
+      <button id="btn-listado" href="../Menu/menuPrincipal.html">Ver citas</button>
+      <button id="btn-agendar" href="../Menu/menuPrincipal.html">Agendar</button>
+      <button id="btn-reprogramar" href="../Menu/menuPrincipal.html">Reprogramar</button>
+      <button id="btn-cancelar" href="../Menu/menuPrincipal.html">Cancelar</button>
+      <button id="btn-volver" href="../Menu/menuPrincipal.html">Volver</button>
+    </nav>
+  </header>
 
-  <div class="formulario">
+  <section id="listado-citas">
+    <h2>En desarrollo</h2>
+  </section>
+
+  <section id="agendar-citas" class="formulario">
     <h2>Agendar Cita</h2>
+    
     <form>
       <label for="documento">Tipo de documento</label>
       <select required id="documento"></select>
 
       <label for="nDocumento">Nùmero de documento</label>
-      <input id="nDocumento" type="text" placeholder="Escribe aquì.." required />
-
+      <input id="nDocumento" type="number" placeholder="Escribe aquì.." required /> 
+      <span id="msj-error"></span>
+           
       <label for="nombrePaciente">Nombre del paciente</label>
       <input id="nombrePaciente" type="text" placeholder="Escribe aquì.." required />
 
@@ -32,7 +46,9 @@
 
       <div id="mensaje">¡Cita creada exitosamente!</div>
     </form>
-  </div>
+  </section>
+
   <script src="./cita.js"></script>
+  <script src="./layout.js"></script>
 </body>
 </html>

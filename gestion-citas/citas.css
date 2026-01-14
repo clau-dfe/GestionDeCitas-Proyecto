@@ -4,13 +4,21 @@ body {
   margin: 0;
   padding: 0;
 }
-nav{
-  padding: 10px 30px;
-  display: flex;
-  justify-content: end;
+
+h1{
+  color: #4ba386;
+  text-align: center;
 }
 
-nav a{
+nav{
+  margin: auto;
+  width: 45%;
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+nav button{
   background-color: #c1e1c1;
   color: #444;
   font-weight: bold;
@@ -18,11 +26,13 @@ nav a{
   padding: 10px;
   text-decoration: none;
   border-radius: 10px;
+  width: 120px;
+  text-align: center;
 }
 
 .formulario {
   max-width: 400px;
-  margin: 50px auto;
+  margin: 20px auto;
   background-color: #e0ffe0;
   padding: 20px;
   border-radius: 10px;
@@ -69,4 +79,19 @@ button:hover {
   border-radius: 6px;
   display: none;
   text-align: center;
+}
+
+#listado-citas{
+  display: none;
+  max-width: 400px;
+  margin: 20px auto;
+  background-color: #e0ffe0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #c0e0c0;
+  text-align: center;
+}
+
+#agendar-citas{
+  display: block;
 }

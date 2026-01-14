@@ -17,16 +17,23 @@ documentos.forEach((tipo, i) => {
 });
 
 // Crear cita
-document.getElementById("crearCita").addEventListener("click", () => {
+document.getElementById("crearCita").addEventListener("click", (e) => {
+    e.preventDefault();
     const documentIndex = documentSelect.value;
     const numeroDocumento = document.getElementById("nDocumento").value;
     const nombreDelPaciente = document.getElementById("nombrePaciente").value;
     const fecha = document.getElementById("fecha").value;
     const hora = document.getElementById("hora").value;
+    const msjError = document.getElementById("msj-error");
 
     if (!fecha || !hora) {
         alert("Debe llenar todos los campos.");
-        return;
+        return;}
+        
+    if (!/^[0-9]+$/.test(numeroDocumento)) {
+        msjError.textContent = "⚠️ Solo se permiten números";
+    } else {
+        msjError.textContent = ""; // limpia el mensaje si está correcto
     }
 
     const cita = {

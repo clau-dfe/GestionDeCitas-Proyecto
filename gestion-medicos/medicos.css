@@ -5,6 +5,22 @@ body {
   padding: 0;
 }
 
+nav{
+  padding: 10px 30px;
+  display: flex;
+  justify-content: end;
+}
+
+nav a{
+  background-color: #cce0ff;
+  color: #444;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
 .formulario {
   max-width: 400px;
   margin: 50px auto;
@@ -25,6 +41,17 @@ input, select, button {
   margin: 10px 0;
   border-radius: 5px;
   border: 1px solid #ccc;
+}
+
+.mensaje-exito {
+  display: none; /* Oculto por defecto */
+  margin-top: 20px;
+  text-align: center;
+  background-color: #dff0d8;
+  color: #3c763d;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
 button {

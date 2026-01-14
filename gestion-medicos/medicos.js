@@ -1,4 +1,3 @@
-
 // Capturar el formulario de registro
 const registroForm = document.querySelector(".formulario form");
 registroForm.addEventListener("submit", function(event) {
@@ -12,14 +11,12 @@ registroForm.addEventListener("submit", function(event) {
   const correo = registroForm.querySelector("input[placeholder='Correo electrónico']").value;
   const contrasena = registroForm.querySelector("input[placeholder='Contraseña']").value;
 
-  // Mostrar en consola
-  console.log("Registro de Médico:");
-  console.log("Tipo de documento:", tipoDocumento);
-  console.log("Número de documento:", numeroDocumento);
-  console.log("Nombre:", nombre);
-  console.log("Especialidad:", especialidad);
-  console.log("Correo:", correo);
-  console.log("Contraseña:", contrasena);
+  tipoDocumento.value = 0;
+  numeroDocumento.value = "";
+  nombre.value = "";
+  especialidad.value = "";
+  correo.value = "";
+  contrasena.value = "";
 
   alert("Registro exitoso ✅");
 });

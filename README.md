@@ -30,8 +30,14 @@ Para ver la plataforma en funcionamiento:
 ```   
    index.html
 ```
- 
-3. Desde la barra de navegación podrás acceder a los módulos disponibles:
+
+3. Debes iniciar sesiòn con los siguientes datos:
+```  
+* Correo: admin@gmail.com
+* Contraseña: 1234
+```  
+
+4. Desde el menu podrás acceder a los módulos disponibles:
 
 * Creación de citas
 * Registro de pacientes

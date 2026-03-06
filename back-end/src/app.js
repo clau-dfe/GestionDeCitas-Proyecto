@@ -8,6 +8,7 @@ const { testConnection } = require('./config/sequelize');
 const { syncModels } = require('./models');
 const authRoutes = require('./routes/authRoutes');
 const citaRoutes = require('./routes/citaRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
@@ -27,7 +28,7 @@ const app = express();
 // Middlewares
 app.use(helmet());
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'http://127.0.0.1:5500'],
     credentials: true
 }));
 app.use(express.json());
@@ -57,6 +58,7 @@ app.get('/health', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/citas', citaRoutes);
+app.use('/api/usuarios', userRoutes);
 
 // Ruta no encontrada
 app.use((req, res) => {

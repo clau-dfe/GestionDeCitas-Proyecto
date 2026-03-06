@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Citas - Dermo-Skin</title>
+    <link rel="stylesheet" href="estilos/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-clinic-medical"></i>
+                <span>Dermo-Skin</span>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="perfil-paciente.html">Mi Perfil</a></li>
+                <li><a href="agendar-cita.html">Agendar Cita</a></li>
+                <li><a href="mis-citas.html" class="active">Mis Citas</a></li>
+                <li><a href="#" id="logoutBtn">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 800px;">
+        <h2>Mis Citas</h2>
+        
+        <div style="margin-bottom: 20px; display: flex; gap: 10px; justify-content: center;">
+            <button onclick="filtrarCitas('todas')" class="filtro-btn active">Todas</button>
+            <button onclick="filtrarCitas('pendiente')" class="filtro-btn">Pendientes</button>
+            <button onclick="filtrarCitas('confirmada')" class="filtro-btn">Confirmadas</button>
+            <button onclick="filtrarCitas('completada')" class="filtro-btn">Completadas</button>
+            <button onclick="filtrarCitas('cancelada')" class="filtro-btn">Canceladas</button>
+        </div>
+
+        <div id="citasContainer">
+            <p style="text-align: center; color: var(--text-light);">Cargando tus citas...</p>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <a href="perfil-paciente.html" style="flex: 1; padding: 12px; background: var(--pastel-light); color: var(--text-dark); text-decoration: none; border-radius: 10px; text-align: center;">
+                <i class="fas fa-arrow-left"></i> Volver al Perfil
+            </a>
+            <a href="agendar-cita.html" style="flex: 1; padding: 12px; background: var(--pastel-medium); color: white; text-decoration: none; border-radius: 10px; text-align: center;">
+                Nueva Cita <i class="fas fa-plus"></i>
+            </a>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="mis-citas.js"></script>
+</body>
+</html>

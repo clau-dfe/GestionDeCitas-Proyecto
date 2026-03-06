@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agendar Cita - Dermo-Skin</title>
+    <link rel="stylesheet" href="estilos/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-clinic-medical"></i>
+                <span>Dermo-Skin</span>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="perfil-paciente.html">Mi Perfil</a></li>
+                <li><a href="agendar-cita.html" class="active">Agendar Cita</a></li>
+                <li><a href="#" id="logoutBtn">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 600px;">
+        <h2>Agendar Nueva Cita</h2>
+        
+        <form id="citaForm">
+            <!-- Selección de dermatólogo -->
+            <label style="display: block; margin-bottom: 5px; color: var(--text-dark);">Selecciona un dermatólogo:</label>
+            <select id="dermatologo" required>
+                <option value="">Cargando dermatólogos...</option>
+            </select>
+
+            <!-- Fecha -->
+            <label style="display: block; margin-bottom: 5px; color: var(--text-dark);">Fecha de la cita:</label>
+            <input type="date" id="fecha" required min="" onchange="cargarHorarios()">
+
+            <!-- Hora -->
+            <label style="display: block; margin-bottom: 5px; color: var(--text-dark);">Hora disponible:</label>
+            <select id="hora" required disabled>
+                <option value="">Primero selecciona una fecha</option>
+            </select>
+
+            <!-- Tipo de consulta -->
+            <label style="display: block; margin-bottom: 5px; color: var(--text-dark);">Tipo de consulta:</label>
+            <select id="tipoConsulta" required>
+                <option value="primera vez">Primera vez</option>
+                <option value="seguimiento">Seguimiento</option>
+                <option value="procedimiento">Procedimiento</option>
+                <option value="emergencia">Emergencia</option>
+                <option value="consulta general">Consulta general</option>
+            </select>
+
+            <!-- Motivo -->
+            <label style="display: block; margin-bottom: 5px; color: var(--text-dark);">Motivo de la consulta:</label>
+            <textarea id="motivo" rows="4" placeholder="Describe el motivo de tu consulta..." required></textarea>
+
+            <button type="submit">Agendar Cita</button>
+        </form>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <a href="perfil-paciente.html" style="flex: 1; padding: 12px; background: var(--pastel-light); color: var(--text-dark); text-decoration: none; border-radius: 10px; text-align: center; border: 1px solid var(--border-light);">
+                <i class="fas fa-arrow-left"></i> Volver al Perfil
+            </a>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="agendar-cita.js"></script>
+</body>
+</html>

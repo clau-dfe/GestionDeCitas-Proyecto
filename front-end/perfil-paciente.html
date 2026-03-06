@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Perfil - Paciente</title>
+    <link rel="stylesheet" href="estilos/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-clinic-medical"></i>
+                <span>Dermo-Skin</span>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="perfil-paciente.html" class="active">Mi Perfil</a></li>
+                <li><a href="#" id="logoutBtn">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 900px;">
+        <!-- Header del Perfil -->
+        <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid var(--pastel-light);">
+            <div style="width: 80px; height: 80px; background: var(--pastel-medium); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user" style="font-size: 3rem; color: white;"></i>
+            </div>
+            <div>
+                <h2 style="margin-bottom: 5px;" id="nombreUsuario">Cargando...</h2>
+                <p style="color: var(--text-light);" id="emailUsuario"></p>
+            </div>
+        </div>
+
+        <!-- Estadísticas Rápidas -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px;">
+            <div style="background: var(--pastel-light); padding: 15px; border-radius: 15px; text-align: center;">
+                <i class="fas fa-calendar-check" style="font-size: 2rem; color: var(--pastel-dark);"></i>
+                <h3 style="font-size: 1.5rem; margin: 5px 0;" id="totalCitas">0</h3>
+                <p style="color: var(--text-light);">Citas Totales</p>
+            </div>
+            <div style="background: var(--pastel-light); padding: 15px; border-radius: 15px; text-align: center;">
+                <i class="fas fa-clock" style="font-size: 2rem; color: var(--pastel-dark);"></i>
+                <h3 style="font-size: 1.5rem; margin: 5px 0;" id="citasPendientes">0</h3>
+                <p style="color: var(--text-light);">Pendientes</p>
+            </div>
+            <div style="background: var(--pastel-light); padding: 15px; border-radius: 15px; text-align: center;">
+                <i class="fas fa-check-circle" style="font-size: 2rem; color: var(--pastel-dark);"></i>
+                <h3 style="font-size: 1.5rem; margin: 5px 0;" id="citasCompletadas">0</h3>
+                <p style="color: var(--text-light);">Completadas</p>
+            </div>
+        </div>
+
+        <!-- Grid de Funcionalidades -->
+        <h3 style="margin-bottom: 20px;">¿Qué deseas hacer hoy?</h3>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            
+            <!-- Agendar Nueva Cita -->
+            <a href="agendar-cita.html" class="funcionalidad-card" style="background: white; padding: 25px; border-radius: 20px; text-decoration: none; color: var(--text-dark); box-shadow: 0 4px 15px var(--shadow-color); transition: all 0.3s ease; border: 1px solid var(--border-light);">
+                <i class="fas fa-calendar-plus" style="font-size: 2.5rem; color: var(--pastel-dark); margin-bottom: 15px;"></i>
+                <h4 style="margin-bottom: 10px;">Agendar Cita</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Programa una nueva consulta con nuestros especialistas</p>
+            </a>
+
+            <!-- Ver Mis Citas -->
+            <a href="mis-citas.html" class="funcionalidad-card" style="background: white; padding: 25px; border-radius: 20px; text-decoration: none; color: var(--text-dark); box-shadow: 0 4px 15px var(--shadow-color); transition: all 0.3s ease; border: 1px solid var(--border-light);">
+                <i class="fas fa-calendar-alt" style="font-size: 2.5rem; color: var(--pastel-dark); margin-bottom: 15px;"></i>
+                <h4 style="margin-bottom: 10px;">Mis Citas</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Consulta, reprograma o cancela tus citas</p>
+            </a>
+
+            <!-- Historial Médico -->
+            <a href="historial-medico.html" class="funcionalidad-card" style="background: white; padding: 25px; border-radius: 20px; text-decoration: none; color: var(--text-dark); box-shadow: 0 4px 15px var(--shadow-color); transition: all 0.3s ease; border: 1px solid var(--border-light);">
+                <i class="fas fa-notes-medical" style="font-size: 2.5rem; color: var(--pastel-dark); margin-bottom: 15px;"></i>
+                <h4 style="margin-bottom: 10px;">Historial Médico</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Revisa tus consultas anteriores y diagnósticos</p>
+            </a>
+
+            <!-- Mis Dermatólogos -->
+            <a href="mis-dermatologos.html" class="funcionalidad-card" style="background: white; padding: 25px; border-radius: 20px; text-decoration: none; color: var(--text-dark); box-shadow: 0 4px 15px var(--shadow-color); transition: all 0.3s ease; border: 1px solid var(--border-light);">
+                <i class="fas fa-user-md" style="font-size: 2.5rem; color: var(--pastel-dark); margin-bottom: 15px;"></i>
+                <h4 style="margin-bottom: 10px;">Mis Dermatólogos</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Especialistas que te han atendido</p>
+            </a>
+
+            <!-- Recordatorios -->
+            <a href="recordatorios.html" class="funcionalidad-card" style="background: white; padding: 25px; border-radius: 20px; text-decoration: none; color: var(--text-dark); box-shadow: 0 4px 15px var(--shadow-color); transition: all 0.3s ease; border: 1px solid var(--border-light);">
+                <i class="fas fa-bell" style="font-size: 2.5rem; color: var(--pastel-dark); margin-bottom: 15px;"></i>
+                <h4 style="margin-bottom: 10px;">Recordatorios</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Configura alertas para tus citas</p>
+            </a>
+
+            <!-- Cancelar Cita Rápida -->
+            <a href="mis-citas.html?filter=cancelar" class="funcionalidad-card" style="background: white; padding: 25px; border-radius: 20px; text-decoration: none; color: var(--text-dark); box-shadow: 0 4px 15px var(--shadow-color); transition: all 0.3s ease; border: 1px solid var(--border-light);">
+                <i class="fas fa-times-circle" style="font-size: 2.5rem; color: var(--pastel-dark); margin-bottom: 15px;"></i>
+                <h4 style="margin-bottom: 10px;">Cancelar Cita</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Anula una cita programada</p>
+            </a>
+        </div>
+
+        <!-- Próximas Citas (Resumen) -->
+        <div style="margin-top: 40px;">
+            <h3 style="margin-bottom: 20px;">Próximas Citas</h3>
+            <div id="proximasCitas">
+                <p style="color: var(--text-light); text-align: center;">Cargando tus próximas citas...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="perfil-paciente.js"></script>
+</body>
+</html>

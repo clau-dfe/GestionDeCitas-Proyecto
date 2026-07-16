@@ -1,45 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Formulario de Médico</title>
-  <link rel="stylesheet" href="medicos.css" />
+    <meta charset="UTF-8">
+    <title>Registrar Especialista</title>
+    <link rel="stylesheet" href="../estilos/style.css">
 </head>
-
 <body>
-  <nav>
-    <a href="../Menu/menuPrincipal.html">Volver</a>
-  </nav>
-  
-  <div class="formulario">
-    <h2>Registro de Médico</h2>
-    <form id="registroForm">
-      <select required>
-        <option disabled selected>Tipo de documento</option>
-        <option>Cédula de ciudadanía</option>
-        <option>Cédula de extranjería</option>
-        <option>Pasaporte</option>
-      </select>
-      <input type="number" placeholder="Número de documento" required />
-      <input type="text" placeholder="Nombre completo" required />
-      <input type="text" placeholder="Especialidad" required />
-      <input type="email" placeholder="Correo electrónico" required />
-      <input type="password" placeholder="Contraseña" required />
-      <button type="submit">Registrar</button>
+    <div class="container">
+        <h2>Registro de Especialista (Dermatólogo)</h2>
+        <form id="registroEspecialista">
+            <!-- Nombre completo -->
+            <input type="text" id="nombre" placeholder="Nombre completo" required>
+            
+            <!-- Correo electrónico -->
+            <input type="email" id="email" placeholder="Correo electrónico" required>
+            
+            <!-- Contraseña -->
+            <input type="password" id="password" placeholder="Contraseña (mínimo 6 caracteres)" required>
+            
+            <!-- Teléfono -->
+            <input type="tel" id="telefono" placeholder="Teléfono (10 dígitos)" required>
 
-      <!-- Contenedor para el mensaje de éxito -->
-      <div class="mensaje-exito" id="mensajeExito">
-        <p>Registro creado exitosamente ✅</p>
-        <p id="datoNombre"></p>
-        <p id="datoCorreo"></p>
-        <p id="datoEspecialidad"></p>
-      </div>
-    </form>
-  </div>
+            <!-- Especialidad -->
+            <input type="text" id="especialidad" placeholder="Especialidad (ej: Dermatología Clínica)" required>
 
-  <script src="./medicos.js"></script>
+            <button type="submit">Registrar Especialista</button>
+        </form>
+        <a href="../perfil-dermatologo.html">← Volver al Perfil</a>
+    </div>
+
+    <script src="../api2.js"></script>
+    <script src="medicos.js"></script>
 </body>
 </html>
-
-
-

@@ -1,62 +1,47 @@
-// login.js - Versión con redirección asegurada
+// login.js
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('✅ login.js cargado');
-    limpiarCamposLogin();
+    console.log('✅ login.js cargado correctamente');
 });
-
-function limpiarCamposLogin() {
-    const form = document.getElementById('loginForm');
-    if (form) form.reset();
-    
-    const emailField = document.getElementById('email');
-    const passwordField = document.getElementById('password');
-    
-    if (emailField) {
-        emailField.value = '';
-        emailField.setAttribute('autocomplete', 'off');
-    }
-    
-    if (passwordField) {
-        passwordField.value = '';
-        passwordField.setAttribute('autocomplete', 'new-password');
-    }
-}
 
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
-    
+
+    console.log('📤 Intentando login con:', { email, password });
+
     try {
-        const response = await fetch('http://localhost:5000/api/auth/login', {
+        const response = await fetch('http://localhost:3000/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         });
-        
+
         const data = await response.json();
-        
+        console.log('📥 Respuesta del servidor:', data);
+
         if (data.success) {
             // Guardar datos
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.usuario));
-            
-            // Limpiar formulario
-            limpiarCamposLogin();
-            
-            // ✅ REDIRECCIÓN DIRECTA (sin setTimeout innecesario)
-            if (data.usuario.tipoUsuario === 'paciente') {
-                window.location.href = 'perfil-paciente.html';
-            } else if (data.usuario.tipoUsuario === 'dermatologo') {
+
+            const tipoUsuario = data.usuario.tipoUsuario;
+            console.log('👤 Tipo de usuario:', tipoUsuario);
+
+            // ✅ REDIRECCIÓN CORRECTA
+            if (tipoUsuario === 'dermatologo') {
+                console.log('🔄 Redirigiendo a perfil-dermatologo.html...');
                 window.location.href = 'perfil-dermatologo.html';
             } else {
-                window.location.href = 'perfil.html';
+                console.log('🔄 Redirigiendo a perfil-paciente.html...');
+                window.location.href = 'perfil-paciente.html';
             }
         } else {
             alert('❌ ' + data.error);
         }
     } catch (error) {
+        console.error('❌ Error de conexión:', error);
         alert('❌ Error de conexión');
     }
 });

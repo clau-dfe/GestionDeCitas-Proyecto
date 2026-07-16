@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial Médico - Dermo-Skin</title>
+    <link rel="stylesheet" href="estilos/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-clinic-medical"></i>
+                <span>Dermo-Skin</span>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="perfil-paciente.html">Mi Perfil</a></li>
+                <li><a href="historial-medico.html" class="active">Historial Médico</a></li>
+                <li><a href="#" id="logoutBtn">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container" style="max-width: 900px;">
+        <h2>📋 Historial Médico</h2>
+        <p style="color: var(--text-light); margin-bottom: 20px;">
+            Aquí puedes ver el resumen de tus consultas y diagnósticos anteriores.
+        </p>
+
+        <!-- Contenedor donde se cargará la información -->
+        <div id="historialContainer">
+            <p style="text-align: center; color: var(--text-light);">
+                <i class="fas fa-spinner fa-spin"></i> Cargando tu historial...
+            </p>
+        </div>
+
+        <!-- Botón para volver al perfil -->
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="perfil-paciente.html" style="display: inline-block; padding: 12px 30px; background: var(--pastel-medium); color: white; text-decoration: none; border-radius: 25px; transition: background 0.3s;">
+                <i class="fas fa-arrow-left"></i> Volver al Perfil
+            </a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="api2.js"></script>
+    <script src="historial-medico.js"></script>
+</body>
+</html>

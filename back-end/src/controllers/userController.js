@@ -1,20 +1,18 @@
 const { User } = require('../models');
 
-// Obtener usuarios por tipo
 const obtenerUsuariosPorTipo = async (req, res) => {
     try {
         const { tipo } = req.query;
-        
         const where = {};
         if (tipo) {
             where.tipoUsuario = tipo;
         }
-        
+
         const usuarios = await User.findAll({
             where,
             attributes: { exclude: ['password'] }
         });
-        
+
         res.json({
             success: true,
             usuarios

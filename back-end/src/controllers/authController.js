@@ -2,43 +2,51 @@ const { User, HistorialMedico } = require('../models');
 const jwt = require('jsonwebtoken');
 const { sequelize } = require('../config/sequelize');
 
+// Generar token JWT
 const generarToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRE || '7d'
     });
 };
 
+// ============================================================
+// REGISTRAR USUARIO (Paciente o Dermatólogo - SIN CLAVE MAESTRA)
+// ============================================================
 const registrarUsuario = async (req, res) => {
     const t = await sequelize.transaction();
-    
+
     try {
         const { nombre, email, password, telefono, tipoUsuario, especialidad } = req.body;
 
+        // Validar campos requeridos
         if (!nombre || !email || !password || !telefono) {
+            await t.rollback();
             return res.status(400).json({
                 success: false,
                 error: 'Por favor complete todos los campos requeridos'
             });
         }
 
-        const usuarioExiste = await User.findOne({ 
-            where: { email } 
-        });
-
+        // Verificar si el usuario ya existe
+        const usuarioExiste = await User.findOne({ where: { email } });
         if (usuarioExiste) {
+            await t.rollback();
             return res.status(400).json({
                 success: false,
                 error: 'El email ya está registrado'
             });
         }
 
+        // Validar que si es dermatólogo, tenga especialidad
         if (tipoUsuario === 'dermatologo' && !especialidad) {
+            await t.rollback();
             return res.status(400).json({
                 success: false,
                 error: 'Los dermatólogos deben especificar su especialidad'
             });
         }
 
+        // Crear usuario
         const usuario = await User.create({
             nombre,
             email: email.toLowerCase(),
@@ -48,6 +56,7 @@ const registrarUsuario = async (req, res) => {
             especialidad: tipoUsuario === 'dermatologo' ? especialidad : null
         }, { transaction: t });
 
+        // Si es paciente, crear su historial médico
         if (usuario.tipoUsuario === 'paciente') {
             await HistorialMedico.create({
                 pacienteId: usuario.id
@@ -81,6 +90,9 @@ const registrarUsuario = async (req, res) => {
     }
 };
 
+// ============================================================
+// INICIAR SESIÓN (LOGIN)
+// ============================================================
 const loginUsuario = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -92,8 +104,8 @@ const loginUsuario = async (req, res) => {
             });
         }
 
-        const usuario = await User.findOne({ 
-            where: { email: email.toLowerCase() } 
+        const usuario = await User.findOne({
+            where: { email: email.toLowerCase() }
         });
 
         if (!usuario) {
@@ -142,6 +154,9 @@ const loginUsuario = async (req, res) => {
     }
 };
 
+// ============================================================
+// OBTENER PERFIL DEL USUARIO AUTENTICADO
+// ============================================================
 const obtenerPerfil = async (req, res) => {
     try {
         const usuario = await User.findByPk(req.usuario.id, {
@@ -165,7 +180,7 @@ const obtenerPerfil = async (req, res) => {
                 tipoUsuario: usuario.tipoUsuario,
                 especialidad: usuario.especialidad,
                 fechaRegistro: usuario.fecha_registro,
-                historial
+                historial: historial
             }
         });
 
@@ -178,10 +193,13 @@ const obtenerPerfil = async (req, res) => {
     }
 };
 
+// ============================================================
+// ACTUALIZAR PERFIL
+// ============================================================
 const actualizarPerfil = async (req, res) => {
     try {
         const { nombre, telefono, especialidad } = req.body;
-        
+
         const usuario = await User.findByPk(req.usuario.id);
 
         if (nombre) usuario.nombre = nombre;
@@ -214,6 +232,9 @@ const actualizarPerfil = async (req, res) => {
     }
 };
 
+// ============================================================
+// CAMBIAR CONTRASEÑA
+// ============================================================
 const cambiarPassword = async (req, res) => {
     try {
         const { passwordActual, passwordNueva } = req.body;
@@ -259,6 +280,9 @@ const cambiarPassword = async (req, res) => {
     }
 };
 
+// ============================================================
+// CERRAR SESIÓN
+// ============================================================
 const logoutUsuario = (req, res) => {
     res.json({
         success: true,
@@ -266,6 +290,9 @@ const logoutUsuario = (req, res) => {
     });
 };
 
+// ============================================================
+// EXPORTAR CONTROLADORES
+// ============================================================
 module.exports = {
     registrarUsuario,
     loginUsuario,

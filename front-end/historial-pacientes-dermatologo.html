@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Pacientes - Dermatólogo</title>
+    <link rel="stylesheet" href="estilos/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-clinic-medical"></i>
+                <span>Dermo-Skin</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="perfil-dermatologo.html">Mi Panel</a></li>
+                <li><a href="historial-pacientes-dermatologo.html" class="active">Historial</a></li>
+                <li><a href="#" id="logoutBtn">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 800px;">
+        <h2>📋 Historial de Pacientes</h2>
+        <p style="color: var(--text-light);">Selecciona un paciente para ver su historial médico completo.</p>
+
+        <div style="margin: 20px 0;">
+            <label style="display: block; margin-bottom: 5px; color: var(--text-dark);">Buscar paciente:</label>
+            <input type="text" id="buscarPaciente" placeholder="Escribe el nombre o email..." style="width: 100%; padding: 12px; border: 2px solid var(--border-light); border-radius: 10px; font-size: 16px;">
+        </div>
+
+        <div id="pacientesContainer">
+            <p style="text-align: center; color: var(--text-light);">Cargando pacientes...</p>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <a href="perfil-dermatologo.html" style="display: inline-block; padding: 10px 20px; background: var(--pastel-light); color: var(--text-dark); text-decoration: none; border-radius: 20px;">
+                <i class="fas fa-arrow-left"></i> Volver al Panel
+            </a>
+        </div>
+    </div>
+
+    <script src="api2.js"></script>
+    <script src="historial-pacientes-dermatologo.js"></script>
+</body>
+</html>

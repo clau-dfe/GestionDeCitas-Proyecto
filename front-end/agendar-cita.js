@@ -1,34 +1,31 @@
 // agendar-cita.js
-let dermatologos = [];
 
+// ==================== CONFIGURACIÓN INICIAL ====================
 document.addEventListener('DOMContentLoaded', () => {
-    verificarAutenticacion();
-    cargarDermatologos();
-    configurarFechaMinima();
-});
-
-function verificarAutenticacion() {
+    // Verificar autenticación
     const token = localStorage.getItem('token');
     if (!token) {
         window.location.href = 'login.html';
+        return;
     }
-}
 
-function configurarFechaMinima() {
-    const fechaInput = document.getElementById('fecha');
-    const hoy = new Date();
-    const año = hoy.getFullYear();
-    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
-    const dia = String(hoy.getDate()).padStart(2, '0');
-    fechaInput.min = `${año}-${mes}-${dia}`;
-}
+    // Cargar dermatólogos y citas
+    cargarDermatologos();
+    cargarMisCitas();
+    configurarFechaMinima();
 
+    // Eventos
+    document.getElementById('dermatologo').addEventListener('change', cargarHorarios);
+    document.getElementById('fecha').addEventListener('change', cargarHorarios);
+    document.getElementById('citaForm').addEventListener('submit', agendarCita);
+});
+
+// ==================== CARGAR DERMATÓLOGOS ====================
 async function cargarDermatologos() {
     try {
         const data = await fetchAPI('/usuarios?tipo=dermatologo');
         
         if (data.success && data.usuarios) {
-            dermatologos = data.usuarios;
             const select = document.getElementById('dermatologo');
             select.innerHTML = '<option value="">Selecciona un dermatólogo</option>';
             
@@ -36,14 +33,14 @@ async function cargarDermatologos() {
                 select.innerHTML += `<option value="${derm.id}">Dr(a). ${derm.nombre} - ${derm.especialidad || 'Dermatología'}</option>`;
             });
         } else {
-            mostrarError('No hay dermatólogos disponibles');
+            console.error('Error al cargar dermatólogos:', data.error);
         }
     } catch (error) {
-        console.error('Error:', error);
-        mostrarError('Error al cargar dermatólogos');
+        console.error('Error de conexión:', error);
     }
 }
 
+// ==================== CARGAR HORARIOS ====================
 async function cargarHorarios() {
     const dermatologoId = document.getElementById('dermatologo').value;
     const fecha = document.getElementById('fecha').value;
@@ -56,33 +53,37 @@ async function cargarHorarios() {
     }
     
     try {
-        horaSelect.innerHTML = '<option value="">Cargando horarios...</option>';
-        horaSelect.disabled = true;
-        
         const data = await fetchAPI(`/citas/disponibilidad/${dermatologoId}?fecha=${fecha}`);
         
-        if (data.success && data.horariosDisponibles) {
+        if (data.success && data.horariosDisponibles && data.horariosDisponibles.length > 0) {
             horaSelect.innerHTML = '<option value="">Selecciona una hora</option>';
-            
-            if (data.horariosDisponibles.length === 0) {
-                horaSelect.innerHTML = '<option value="">No hay horarios disponibles</option>';
-            } else {
-                data.horariosDisponibles.forEach(hora => {
-                    horaSelect.innerHTML += `<option value="${hora}">${hora}</option>`;
-                });
-                horaSelect.disabled = false;
-            }
+            data.horariosDisponibles.forEach(hora => {
+                horaSelect.innerHTML += `<option value="${hora}">${hora}</option>`;
+            });
+            horaSelect.disabled = false;
         } else {
-            horaSelect.innerHTML = '<option value="">Error al cargar horarios</option>';
+            horaSelect.innerHTML = '<option value="">No hay horarios disponibles</option>';
+            horaSelect.disabled = true;
         }
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error al cargar horarios:', error);
         horaSelect.innerHTML = '<option value="">Error al cargar horarios</option>';
+        horaSelect.disabled = true;
     }
 }
 
-document.getElementById('citaForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+// ==================== CONFIGURAR FECHA MÍNIMA ====================
+function configurarFechaMinima() {
+    const fechaInput = document.getElementById('fecha');
+    if (fechaInput) {
+        const hoy = new Date().toISOString().split('T')[0];
+        fechaInput.min = hoy;
+    }
+}
+
+// ==================== AGENDAR CITA ====================
+async function agendarCita(event) {
+    event.preventDefault();
     
     const citaData = {
         dermatologo: document.getElementById('dermatologo').value,
@@ -93,7 +94,7 @@ document.getElementById('citaForm').addEventListener('submit', async (e) => {
     };
     
     if (!citaData.dermatologo || !citaData.fecha || !citaData.hora || !citaData.motivo) {
-        mostrarMensaje('❌ Todos los campos son obligatorios', 'error');
+        alert('❌ Todos los campos son obligatorios');
         return;
     }
     
@@ -104,49 +105,80 @@ document.getElementById('citaForm').addEventListener('submit', async (e) => {
         });
         
         if (data.success) {
-            mostrarMensaje('✅ Cita agendada exitosamente', 'exito');
-            setTimeout(() => {
-                window.location.href = 'mis-citas.html';
-            }, 2000);
+            alert('✅ Cita agendada exitosamente');
+            document.getElementById('citaForm').reset();
+            document.getElementById('hora').innerHTML = '<option value="">Primero selecciona dermatólogo y fecha</option>';
+            document.getElementById('hora').disabled = true;
+            cargarMisCitas(); // Recargar la lista de citas
         } else {
-            mostrarMensaje('❌ ' + data.error, 'error');
+            alert('❌ ' + data.error);
         }
     } catch (error) {
         console.error('Error:', error);
-        mostrarMensaje('❌ Error al agendar la cita', 'error');
+        alert('❌ Error al agendar la cita');
     }
-});
+}
 
-function mostrarMensaje(texto, tipo) {
-    let mensajeDiv = document.getElementById('mensajeCita');
+// ==================== CARGAR MIS CITAS ====================
+async function cargarMisCitas() {
+    const container = document.getElementById('citasContainer');
+    container.innerHTML = '<p>Cargando tus citas...</p>';
     
-    if (!mensajeDiv) {
-        mensajeDiv = document.createElement('div');
-        mensajeDiv.id = 'mensajeCita';
-        mensajeDiv.style.padding = '15px';
-        mensajeDiv.style.margin = '15px 0';
-        mensajeDiv.style.borderRadius = '10px';
-        mensajeDiv.style.textAlign = 'center';
+    try {
+        const data = await fetchAPI('/citas');
         
-        const titulo = document.querySelector('.container h2');
-        titulo.insertAdjacentElement('afterend', mensajeDiv);
+        if (data.success && data.data && data.data.length > 0) {
+            let html = '';
+            data.data.forEach(cita => {
+                const fecha = new Date(cita.fecha).toLocaleDateString('es-ES');
+                const estadoColor = {
+                    'pendiente': '#ffc107',
+                    'confirmada': '#28a745',
+                    'cancelada': '#dc3545',
+                    'completada': '#17a2b8'
+                }[cita.estado] || '#6c757d';
+                
+                html += `
+                    <div style="border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 5px solid ${estadoColor};">
+                        <p><strong>${cita.dermatologo?.nombre || 'Dermatólogo'}</strong></p>
+                        <p>📅 ${fecha} - 🕐 ${cita.hora}</p>
+                        <p>📝 ${cita.motivo}</p>
+                        <p>Estado: <span style="font-weight: bold; color: ${estadoColor};">${cita.estado.toUpperCase()}</span></p>
+                        ${cita.estado === 'pendiente' || cita.estado === 'confirmada' ? `
+                            <button onclick="cancelarCita(${cita.id})" style="background: #dc3545; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer;">
+                                Cancelar
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        } else {
+            container.innerHTML = '<p>No tienes citas agendadas.</p>';
+        }
+    } catch (error) {
+        console.error('Error al cargar citas:', error);
+        container.innerHTML = '<p style="color: red;">Error al cargar tus citas</p>';
     }
+}
+
+// ==================== CANCELAR CITA ====================
+async function cancelarCita(citaId) {
+    if (!confirm('¿Estás seguro de cancelar esta cita?')) return;
     
-    mensajeDiv.style.background = tipo === 'exito' ? '#d4edda' : '#f8d7da';
-    mensajeDiv.style.color = tipo === 'exito' ? '#155724' : '#721c24';
-    mensajeDiv.style.border = tipo === 'exito' ? '2px solid #c3e6cb' : '2px solid #f5c6cb';
-    mensajeDiv.textContent = texto;
+    try {
+        const data = await fetchAPI(`/citas/${citaId}`, {
+            method: 'DELETE'
+        });
+        
+        if (data.success) {
+            alert('✅ Cita cancelada exitosamente');
+            cargarMisCitas(); // Recargar la lista
+        } else {
+            alert('❌ ' + data.error);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('❌ Error al cancelar la cita');
+    }
 }
-
-function mostrarError(texto) {
-    const select = document.getElementById('dermatologo');
-    select.innerHTML = `<option value="">${texto}</option>`;
-}
-
-// Logout
-document.getElementById('logoutBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    window.location.href = 'index.html';
-});

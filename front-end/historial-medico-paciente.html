@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Historial del Paciente - Dermo-Skin</title>
+    <title>Historial Médico - Paciente</title>
     <link rel="stylesheet" href="estilos/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -16,23 +16,161 @@
             <ul class="nav-menu">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="perfil-dermatologo.html">Mi Panel</a></li>
-                <li><a href="mis-pacientes.html">Mis Pacientes</a></li>
                 <li><a href="#" id="logoutBtn">Cerrar Sesión</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="container" style="max-width: 900px;">
-        <h2>📋 Historial del Paciente</h2>
-        <div id="historialContainer">
-            <p style="text-align: center; color: var(--text-light);">
-                <i class="fas fa-spinner fa-spin"></i> Cargando historial...
-            </p>
+    <div class="container" style="max-width: 950px;">
+        <!-- HEADER -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2>📋 Historial Médico</h2>
+            <span id="fechaActual" style="color: var(--text-light); font-size: 0.9rem;"></span>
         </div>
-        <div style="margin-top: 30px; text-align: center;">
-            <a href="mis-pacientes.html" style="display: inline-block; padding: 12px 30px; background: var(--pastel-light); color: var(--text-dark); text-decoration: none; border-radius: 25px; transition: background 0.3s;">
-                <i class="fas fa-arrow-left"></i> Volver a Mis Pacientes
-            </a>
+
+        <!-- ==================== DATOS DEL PACIENTE ==================== -->
+        <div id="datosPaciente" style="background: #f8f9fa; padding: 20px; border-radius: 15px; margin-bottom: 25px; border-left: 5px solid var(--pastel-medium);">
+            <h3 style="margin-top: 0; color: var(--text-dark);">
+                <i class="fas fa-user-circle"></i> Datos del Paciente
+            </h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <p><strong>Nombre:</strong> <span id="nombrePaciente">Cargando...</span></p>
+                <p><strong>Email:</strong> <span id="emailPaciente">Cargando...</span></p>
+                <p><strong>Teléfono:</strong> <span id="telefonoPaciente">Cargando...</span></p>
+                <p><strong>Edad:</strong> <span id="edadPaciente">No registrada</span></p>
+                <p><strong>Dirección:</strong> <span id="direccionPaciente">No registrada</span></p>
+                <p><strong>Ciudad:</strong> <span id="ciudadPaciente">No registrada</span></p>
+                <p><strong>Ocupación:</strong> <span id="ocupacionPaciente">No registrada</span></p>
+            </div>
+        </div>
+
+        <!-- ==================== DATOS FIJOS DEL PACIENTE (se llenan una vez) ==================== -->
+        <div style="background: #e8f5e9; padding: 20px; border-radius: 15px; margin-bottom: 25px; border-left: 5px solid #4caf50;">
+            <h3 style="margin-top: 0; color: var(--text-dark);">
+                <i class="fas fa-address-card"></i> Datos Personales (Se llenan una sola vez)
+            </h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label style="display: block; font-weight: 600; color: var(--text-dark);">📅 Fecha de Nacimiento</label>
+                    <input type="date" id="fechaNacimiento" style="width: 100%; padding: 8px; border: 2px solid var(--border-light); border-radius: 8px;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: 600; color: var(--text-dark);">📏 Edad (años)</label>
+                    <input type="number" id="edad" placeholder="Ej: 35" style="width: 100%; padding: 8px; border: 2px solid var(--border-light); border-radius: 8px;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: 600; color: var(--text-dark);">📍 Dirección</label>
+                    <input type="text" id="direccion" placeholder="Ej: Calle 123 #45-67" style="width: 100%; padding: 8px; border: 2px solid var(--border-light); border-radius: 8px;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: 600; color: var(--text-dark);">🏙️ Ciudad</label>
+                    <input type="text" id="ciudad" placeholder="Ej: Bogotá" style="width: 100%; padding: 8px; border: 2px solid var(--border-light); border-radius: 8px;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: 600; color: var(--text-dark);">💼 Ocupación</label>
+                    <input type="text" id="ocupacion" placeholder="Ej: Ingeniero" style="width: 100%; padding: 8px; border: 2px solid var(--border-light); border-radius: 8px;">
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== REGISTRO DE CONSULTA (se llena en cada visita) ==================== -->
+        <form id="historialForm">
+            <h3 style="color: var(--text-dark);">
+                <i class="fas fa-notes-medical"></i> Registro de Consulta
+            </h3>
+
+            <!-- Motivo de Consulta -->
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">
+                    📌 Motivo de la Consulta <span style="color: red;">*</span>
+                </label>
+                <textarea id="motivo" rows="2" placeholder="Ej: Picazón en la piel, lesiones en el rostro..." style="width: 100%; padding: 10px; border: 2px solid var(--border-light); border-radius: 10px; font-family: inherit;"></textarea>
+            </div>
+
+            <!-- Antecedentes -->
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">
+                    🧬 Antecedentes Médicos
+                </label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <label style="display: block; font-size: 0.9rem; color: var(--text-light);">Alergias:</label>
+                        <input type="text" id="alergias" placeholder="Ej: Penicilina, polen..." style="width: 100%; padding: 8px; border: 2px solid var(--border-light); border-radius: 8px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.9rem; color: var(--text-light);">Enfermedades crónicas:</label>
+                        <input type="text" id="enfermedades" placeholder="Ej: Diabetes, Hipertensión..." style="width: 100%; padding: 8px; border: 2px solid var(--border-light); border-radius: 8px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.9rem; color: var(--text-light);">Medicamentos actuales:</label>
+                        <input type="text" id="medicamentos" placeholder="Ej: Losartán, Metformina..." style="width: 100%; padding: 8px; border: 2px solid var(--border-light); border-radius: 8px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.9rem; color: var(--text-light);">Cirugías previas:</label>
+                        <input type="text" id="cirugias" placeholder="Ej: Apendicectomía..." style="width: 100%; padding: 8px; border: 2px solid var(--border-light); border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Examen Físico -->
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">
+                    🔬 Hallazgos del Examen Físico
+                </label>
+                <textarea id="examenFisico" rows="3" placeholder="Ej: Lesión eritematosa en región facial, descamación en cuero cabelludo..." style="width: 100%; padding: 10px; border: 2px solid var(--border-light); border-radius: 10px; font-family: inherit;"></textarea>
+            </div>
+
+            <!-- Diagnóstico -->
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">
+                    🩺 Diagnóstico <span style="color: red;">*</span>
+                </label>
+                <input type="text" id="diagnostico" placeholder="Ej: Dermatitis atópica, Psoriasis..." style="width: 100%; padding: 10px; border: 2px solid var(--border-light); border-radius: 10px;">
+            </div>
+
+            <!-- Tratamiento -->
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">
+                    💊 Tratamiento <span style="color: red;">*</span>
+                </label>
+                <textarea id="tratamiento" rows="2" placeholder="Ej: Crema hidratante, Clobetasol tópico..." style="width: 100%; padding: 10px; border: 2px solid var(--border-light); border-radius: 10px; font-family: inherit;"></textarea>
+            </div>
+
+            <!-- Próxima Cita -->
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">
+                    📅 Próxima Cita de Seguimiento
+                </label>
+                <input type="date" id="proximaCita" style="width: 100%; padding: 10px; border: 2px solid var(--border-light); border-radius: 10px;">
+            </div>
+
+            <!-- Observaciones -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 5px;">
+                    📝 Observaciones adicionales
+                </label>
+                <textarea id="observaciones" rows="2" placeholder="Notas adicionales..." style="width: 100%; padding: 10px; border: 2px solid var(--border-light); border-radius: 10px; font-family: inherit;"></textarea>
+            </div>
+
+            <!-- BOTONES -->
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button type="button" onclick="window.location.href='mis-pacientes.html'" style="padding: 12px 25px; background: var(--pastel-light); color: var(--text-dark); border: none; border-radius: 10px; cursor: pointer;">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <button type="submit" style="padding: 12px 30px; background: var(--pastel-medium); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                    <i class="fas fa-save"></i> Guardar Historial
+                </button>
+            </div>
+        </form>
+
+        <!-- HISTORIAL DE CONSULTAS ANTERIORES -->
+        <div style="margin-top: 40px;">
+            <h3 style="color: var(--text-dark);">
+                <i class="fas fa-history"></i> Consultas Anteriores
+            </h3>
+            <div id="consultasAnteriores">
+                <p style="color: var(--text-light);">Cargando consultas anteriores...</p>
+            </div>
         </div>
     </div>
 

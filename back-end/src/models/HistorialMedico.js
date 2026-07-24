@@ -17,27 +17,63 @@ const HistorialMedico = sequelize.define('HistorialMedico', {
             key: 'id'
         }
     },
+    // ===== DATOS FIJOS DEL PACIENTE (se llenan una vez) =====
     fechaNacimiento: {
         type: DataTypes.DATEONLY,
-        field: 'fecha_nacimiento'
+        field: 'fecha_nacimiento',
+        allowNull: true
     },
-    genero: {
-        type: DataTypes.ENUM('masculino', 'femenino', 'otro')
+    edad: {
+        type: DataTypes.INTEGER,
+        allowNull: true
     },
-    tipoSangre: {
-        type: DataTypes.ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'),
-        field: 'tipo_sangre'
+    direccion: {
+        type: DataTypes.STRING(200),
+        allowNull: true
     },
-    ocupacion: DataTypes.STRING(100),
-    direccion: DataTypes.TEXT,
-    alergias: DataTypes.JSON,
-    enfermedadesCronicas: DataTypes.JSON,
-    medicamentosActuales: DataTypes.JSON,
-    cirugiasPrevias: DataTypes.JSON,
-    antecedentesFamiliares: DataTypes.JSON,
-    examenesRealizados: DataTypes.JSON,
-    consultasPrevias: DataTypes.JSON,
-    notasAdicionales: DataTypes.TEXT
+    ciudad: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+    },
+    ocupacion: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+    },
+    // ===== DATOS DE CONSULTA (se agregan en cada visita) =====
+    alergias: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: []
+    },
+    enfermedadesCronicas: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: []
+    },
+    medicamentosActuales: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: []
+    },
+    cirugiasPrevias: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: []
+    },
+    antecedentesFamiliares: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: []
+    },
+    consultasPrevias: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: []
+    },
+    notasAdicionales: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    }
 }, {
     tableName: 'historial_medico',
     timestamps: true,

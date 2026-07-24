@@ -49,32 +49,44 @@ async function cargarDatosPerfil() {
 async function cargarProximasCitas() {
     const container = document.getElementById('proximasCitas');
     try {
+        // ✅ Obtener todas las citas (no solo pendientes)
         const data = await fetchAPI('/citas');
         if (data.success && data.data && data.data.length > 0) {
-            const proximas = data.data.filter(c => c.estado === 'pendiente' || c.estado === 'confirmada');
-            if (proximas.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color: var(--text-light);">No tienes citas pendientes.</p>';
+            // ✅ Mostrar todas las citas, no solo pendientes
+            const citas = data.data;
+            if (citas.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color: var(--text-light);">No tienes citas.</p>';
                 return;
             }
             let html = '<div style="display: grid; gap: 15px;">';
-            proximas.slice(0, 3).forEach(cita => {
+            citas.slice(0, 5).forEach(cita => {
                 const fecha = new Date(cita.fecha).toLocaleDateString('es-ES');
+                const estadoColor = {
+                    'pendiente': '#ffc107',
+                    'confirmada': '#28a745',
+                    'completada': '#17a2b8',
+                    'cancelada': '#dc3545'
+                }[cita.estado] || '#6c757d';
+                
                 html += `
-                    <div style="background: var(--pastel-light); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="background: var(--pastel-light); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid ${estadoColor};">
                         <div>
                             <p><strong>${fecha} - ${cita.hora}</strong></p>
-                            <p style="color: var(--text-light); font-size: 0.9rem;">Paciente: ${cita.paciente?.nombre || 'Pendiente'}</p>
+                            <p style="color: var(--text-light); font-size: 0.9rem;">Paciente: ${cita.paciente?.nombre || 'No disponible'}</p>
+                            <p style="color: var(--text-light); font-size: 0.9rem;">Motivo: ${cita.motivo}</p>
                         </div>
-                        <span style="background: ${cita.estado === 'confirmada' ? '#28a745' : '#ffc107'}; color: white; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem;">
-                            ${cita.estado}
-                        </span>
+                        <div style="text-align: right;">
+                            <span style="background: ${estadoColor}; color: white; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem;">
+                                ${cita.estado.toUpperCase()}
+                            </span>
+                        </div>
                     </div>
                 `;
             });
             html += '</div>';
             container.innerHTML = html;
         } else {
-            container.innerHTML = '<p style="text-align:center; color: var(--text-light);">No tienes citas pendientes.</p>';
+            container.innerHTML = '<p style="text-align:center; color: var(--text-light);">No tienes citas.</p>';
         }
     } catch (error) {
         console.error('Error al cargar citas:', error);

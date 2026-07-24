@@ -62,9 +62,16 @@ function mostrarCitas() {
             'cancelada': '#dc3545'
         }[cita.estado] || '#6c757d';
 
+        const estadoTexto = {
+            'pendiente': 'PENDIENTE',
+            'confirmada': 'CONFIRMADA',
+            'completada': 'COMPLETADA',
+            'cancelada': 'CANCELADA'
+        }[cita.estado] || cita.estado.toUpperCase();
+
         html += `
             <div style="background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 10px var(--shadow-color); border-left: 5px solid ${estadoColor};">
-                <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap;">
                     <div>
                         <h3>${fecha} - ${cita.hora}</h3>
                         <p><strong>Paciente:</strong> ${cita.paciente?.nombre || 'No especificado'}</p>
@@ -73,27 +80,28 @@ function mostrarCitas() {
                         ${cita.tratamiento ? `<p><strong>Tratamiento:</strong> ${cita.tratamiento}</p>` : ''}
                     </div>
                     <div style="text-align: right;">
-                        <span style="background: ${estadoColor}; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
-                            ${cita.estado.toUpperCase()}
+                        <span style="background: ${estadoColor}; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; display: inline-block; margin-bottom: 10px;">
+                            ${estadoTexto}
                         </span>
                     </div>
                 </div>
+                
+                <!-- BOTONES DE ACCIÓN -->
                 <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end;">
                     ${cita.estado === 'pendiente' ? `
-                        <button onclick="confirmarCita(${cita.id})" style="padding: 8px 20px; background: #28a745; color: white; border: none; border-radius: 20px; cursor: pointer;">
-                            <i class="fas fa-check"></i> Confirmar
+                        <button onclick="confirmarCita(${cita.id})" style="padding: 8px 20px; background: #28a745; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: 500;">
+                            <i class="fas fa-check"></i> Aceptar
                         </button>
-                        <button onclick="atenderCita(${cita.id})" style="padding: 8px 20px; background: #17a2b8; color: white; border: none; border-radius: 20px; cursor: pointer;">
-                            <i class="fas fa-stethoscope"></i> Atender
+                        <button onclick="rechazarCita(${cita.id})" style="padding: 8px 20px; background: #dc3545; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: 500;">
+                            <i class="fas fa-times"></i> Rechazar
                         </button>
                     ` : ''}
+                    
                     ${cita.estado === 'confirmada' ? `
-                        <button onclick="atenderCita(${cita.id})" style="padding: 8px 20px; background: #17a2b8; color: white; border: none; border-radius: 20px; cursor: pointer;">
+                        <button onclick="atenderCita(${cita.id})" style="padding: 8px 20px; background: #17a2b8; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: 500;">
                             <i class="fas fa-stethoscope"></i> Atender
                         </button>
-                    ` : ''}
-                    ${cita.estado === 'pendiente' || cita.estado === 'confirmada' ? `
-                        <button onclick="cancelarCita(${cita.id})" style="padding: 8px 20px; background: #dc3545; color: white; border: none; border-radius: 20px; cursor: pointer;">
+                        <button onclick="rechazarCita(${cita.id})" style="padding: 8px 20px; background: #dc3545; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: 500;">
                             <i class="fas fa-times"></i> Cancelar
                         </button>
                     ` : ''}
@@ -106,24 +114,31 @@ function mostrarCitas() {
 
 function filtrarCitas(estado) {
     filtroActual = estado;
+    
     document.querySelectorAll('.filtro-btn').forEach(btn => {
         btn.classList.remove('active');
         btn.style.background = 'var(--pastel-light)';
         btn.style.color = 'var(--text-dark)';
     });
-    event.target.classList.add('active');
-    event.target.style.background = 'var(--pastel-medium)';
-    event.target.style.color = 'white';
+    
+    const btnActivo = event.target;
+    btnActivo.classList.add('active');
+    btnActivo.style.background = 'var(--pastel-medium)';
+    btnActivo.style.color = 'white';
+    
     mostrarCitas();
 }
 
+// ==================== CONFIRMAR CITA (ACEPTAR) ====================
 async function confirmarCita(citaId) {
     if (!confirm('¿Confirmar esta cita?')) return;
+    
     try {
         const data = await fetchAPI(`/citas/${citaId}`, {
             method: 'PUT',
             body: JSON.stringify({ estado: 'confirmada' })
         });
+        
         if (data.success) {
             alert('✅ Cita confirmada');
             cargarCitas();
@@ -136,49 +151,50 @@ async function confirmarCita(citaId) {
     }
 }
 
-async function cancelarCita(citaId) {
-    if (!confirm('¿Cancelar esta cita?')) return;
+// ==================== RECHAZAR CITA ====================
+async function rechazarCita(citaId) {
+    if (!confirm('¿Rechazar esta cita?')) return;
+    
     try {
         const data = await fetchAPI(`/citas/${citaId}`, {
             method: 'DELETE'
         });
+        
         if (data.success) {
-            alert('✅ Cita cancelada');
+            alert('✅ Cita rechazada');
             cargarCitas();
         } else {
             alert('❌ ' + data.error);
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('❌ Error al cancelar');
+        alert('❌ Error al rechazar');
     }
 }
 
+// ==================== ATENDER CITA (REDIRIGE A HISTORIAL) ====================
 async function atenderCita(citaId) {
-    const diagnostico = prompt('Ingresa el diagnóstico:');
-    if (diagnostico === null) return;
-
-    const tratamiento = prompt('Ingresa el tratamiento:');
-    if (tratamiento === null) return;
-
+    console.log('🔍 Atendiendo cita ID:', citaId);
+    
     try {
-        const data = await fetchAPI(`/citas/${citaId}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                estado: 'completada',
-                diagnostico: diagnostico.trim(),
-                tratamiento: tratamiento.trim()
-            })
-        });
-        if (data.success) {
-            alert('✅ Cita atendida correctamente');
-            cargarCitas();
+        // Obtener los datos de la cita para saber el paciente
+        const data = await fetchAPI(`/citas/${citaId}`);
+        console.log('🔍 Respuesta de la cita:', data);
+        
+        if (data.success && data.data) {
+            const cita = data.data;
+            const pacienteId = cita.paciente.id;
+            console.log('🔍 Paciente ID:', pacienteId);
+            console.log('🔍 Redirigiendo a: historial-medico-paciente.html?paciente=' + pacienteId + '&cita=' + citaId);
+            
+            // Redirigir a la plantilla de historial
+            window.location.href = `historial-medico-paciente.html?paciente=${pacienteId}&cita=${citaId}`;
         } else {
-            alert('❌ ' + data.error);
+            alert('❌ Error al obtener los datos de la cita: ' + (data.error || 'Error desconocido'));
         }
     } catch (error) {
-        console.error('Error:', error);
-        alert('❌ Error al atender');
+        console.error('❌ Error en atenderCita:', error);
+        alert('❌ Error al obtener los datos de la cita. Revisa la consola para más detalles.');
     }
 }
 

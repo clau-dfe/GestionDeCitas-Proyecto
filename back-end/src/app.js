@@ -9,6 +9,7 @@ const { syncModels } = require('./models');
 const authRoutes = require('./routes/authRoutes');
 const citaRoutes = require('./routes/citaRoutes');
 const userRoutes = require('./routes/userRoutes');
+const historialRoutes = require('./routes/historialRoutes');
 
 const app = express();
 
@@ -59,6 +60,7 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/citas', citaRoutes);
 app.use('/api/usuarios', userRoutes);
+app.use('/api/historial', historialRoutes);
 
 // Ruta no encontrada
 app.use((req, res) => {

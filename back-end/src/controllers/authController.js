@@ -1,6 +1,7 @@
 const { User, HistorialMedico } = require('../models');
 const jwt = require('jsonwebtoken');
 const { sequelize } = require('../config/sequelize');
+const logger = require('../middleware/logger'); 
 
 // Generar token JWT
 const generarToken = (id) => {
